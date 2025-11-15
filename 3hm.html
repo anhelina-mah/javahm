@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>list</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        .card {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+            border-radius: 10px
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+            list-style: none
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee
+        }
+
+        .bought {
+            text-decoration: line-through;
+            opacity: .6
+        }
+
+        .qty {
+            background: #eee;
+            padding: 3px 7px;
+            border-radius: 6px;
+            margin-left: 6px
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Список покупок</h2>
+
+    <div class="card">
+        <form id="f1">
+            <input id="n" placeholder="Назва">
+            <input id="q" type="number" value="1" min="1">
+            <button>Додати</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <ul id="list"></ul>
+        <div id="empty" style="display:none;color:#777">Порожньо</div>
+    </div>
+
+    <script>
+        let arr = [{ name: "Хліб", qty: 1, bought: false }, { name: "Молоко", qty: 2, bought: true }]
+
+        function r() {
+            let u = document.getElementById("list")
+            u.innerHTML = ""
+            if (arr.length == 0) { document.getElementById("empty").style.display = "block"; return }
+            else document.getElementById("empty").style.display = "none"
+
+            let a = [...arr].sort((x, y) => { if (x.bought == y.bought) return x.name.localeCompare(y.name); return x.bought - y.bought })
+
+            a.forEach(i => {
+                let l = document.createElement("li")
+                if (i.bought) l.className = "bought"
+
+                let d = document.createElement("div")
+                d.textContent = i.name
+                let q = document.createElement("span")
+                q.className = "qty"
+                q.textContent = "x" + i.qty
+                d.appendChild(q)
+
+                let b = document.createElement("div")
+
+                let b1 = document.createElement("button")
+                b1.textContent = i.bought ? "ні" : "куп"
+                b1.onclick = () => { m(i.name, !i.bought) }
+
+                let b2 = document.createElement("button")
+                b2.textContent = "+"
+                b2.onclick = () => { add(i.name, 1) }
+
+                let b3 = document.createElement("button")
+                b3.textContent = "del"
+                b3.onclick = () => { rem(i.name) }
+
+                b.appendChild(b1)
+                b.appendChild(b2)
+                b.appendChild(b3)
+
+                l.appendChild(d)
+                l.appendChild(b)
+                u.appendChild(l)
+            })
+        }
+
+        function add(n, q) {
+            if (!n) return
+            q = +q
+            let t = n.trim().toLowerCase()
+            let x = arr.findIndex(z => z.name.trim().toLowerCase() == t)
+            if (x >= 0) arr[x].qty += q
+            else arr.push({ name: n, qty: q, bought: false })
+            r()
+        }
+
+        function m(n, b) {
+            let t = n.trim().toLowerCase()
+            let x = arr.find(z => z.name.trim().toLowerCase() == t)
+            if (x) { x.bought = !!b; r() }
+        }
+
+        function rem(n) {
+            let t = n.trim().toLowerCase()
+            arr = arr.filter(z => z.name.trim().toLowerCase() != t)
+            r()
+        }
+
+        document.getElementById("f1").onsubmit = e => {
+            e.preventDefault()
+            let n = document.getElementById("n").value
+            let q = document.getElementById("q").value
+            add(n, q)
+            document.getElementById("n").value = ""
+            document.getElementById("q").value = 1
+        }
+
+        r()
+    </script>
+
+</body>
+
+</html>
