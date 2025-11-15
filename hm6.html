@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+    <h2>Додати товар</h2>
+    <form id="product-form">
+        <input type="text" id="product-name" placeholder="Назва" required>
+        <input type="number" id="product-price" placeholder="Ціна" required>
+        <button type="submit">Додати</button>
+    </form>
+
+    <h3>Список товарів</h3>
+    <ul id="product-list"></ul>
+
+    <script>
+        function loadProducts() {
+            const listElement = document.getElementById('product-list');
+            listElement.innerHTML = '';
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            products.forEach(product => {
+                const li = document.createElement('li');
+                li.textContent = `${product.name} - ${product.price} грн`;
+                listElement.appendChild(li);
+            });
+        }
+
+        function addProduct(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('product-name');
+            const priceInput = document.getElementById('product-price');
+
+            const newProduct = {
+                name: nameInput.value.trim(),
+                price: parseFloat(priceInput.value)
+            };
+
+            if (!newProduct.name || isNaN(newProduct.price)) {
+                alert('error');
+                return;
+            }
+
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            products.push(newProduct);
+            localStorage.setItem('products', JSON.stringify(products));
+
+            nameInput.value = '';
+            priceInput.value = '';
+
+            loadProducts();
+        }
+
+        document.getElementById('product-form').addEventListener('submit', addProduct);
+        window.addEventListener('load', loadProducts);
+    </script>
+
+</body>
+
+</html>
