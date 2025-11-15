@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+    <h1>Палітра кольорів</h1>
+
+    <div>
+        <div>
+            <div>
+                <p id="target">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium, dolorum culpa.
+                    Ducimus magni amet voluptas recusandae fugit in quia mollitia. <strong id="current">#333333</strong>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div id="palette">
+            <div tabindex="0" data-color="#111827"
+                style="display:inline-block;width:30px;height:30px;border:4px solid #111827;background:#111827;">
+            </div>
+            <div tabindex="0" data-color="#6b21a8"
+                style="display:inline-block;width:30px;height:30px;border:4px dashed #6b21a8;background:#6b21a8;margin-left:4px">
+            </div>
+            <div tabindex="0" data-color="#ef4444"
+                style="display:inline-block;width:30px;height:30px;border:4px solid #ef4444;background:#ef4444;margin-left:4px">
+            </div>
+            <div tabindex="0" data-color="#f97316"
+                style="display:inline-block;width:30px;height:30px;border:4px double #f97316;background:#f97316;margin-left:4px">
+            </div>
+
+
+
+        </div>
+
+        <div>
+            <button id="reset" style="margin-top:-10px">Скинути</button>
+            <button id="random" style="margin-left:40px;margin-top:28px">Випадковий</button>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        (function () {
+            const palette = document.getElementById('palette');
+            const target = document.getElementById('target');
+            const current = document.getElementById('current');
+            const resetBtn = document.getElementById('reset');
+            const randomBtn = document.getElementById('random');
+
+            function setColor(hex) {
+                target.style.color = hex;
+                current.textContent = hex;
+            }
+
+            palette.addEventListener('click', e => {
+                const cell = e.target.closest('[data-color]');
+                if (!cell) return;
+                const color = cell.dataset.color;
+                if (color) setColor(color);
+            });
+
+            palette.addEventListener('keydown', e => {
+                const cell = e.target.closest('[data-color]');
+                if (!cell) return;
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const color = cell.dataset.color;
+                    if (color) setColor(color);
+                }
+            });
+
+            resetBtn.addEventListener('click', () => setColor('#333333'));
+
+            randomBtn.addEventListener('click', () => {
+                const cells = Array.from(palette.querySelectorAll('[data-color]'));
+                const idx = Math.floor(Math.random() * cells.length);
+                const color = cells[idx].dataset.color;
+                if (color) setColor(color);
+            });
+
+            setColor('#333333');
+        })();
+    </script>
+</body>
+
+</html>
