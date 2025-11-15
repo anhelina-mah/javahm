@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #dcd6f7; 
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card {
+            background: #faf4ff; 
+            border-radius: 4px; 
+            box-shadow: 0 6px 3px rgba(0, 0, 0, 0.2); 
+            max-width: 330px;
+            width: 97%; 
+            overflow: hidden;
+            border: 2px solid #b38bfa; 
+        }
+
+        .card img {
+            width: 103%; 
+            margin-left: -1.5%;
+            display: block;
+        }
+
+        .info {
+            padding: 13px; 
+        }
+
+        .title {
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 9px;
+            color: #6a0dad; 
+        }
+
+        .price {
+            font-size: 21px;
+            color: #cc0044; 
+            margin-bottom: 8px;
+        }
+
+        .old-price {
+            font-size: 13px;
+            color: #555;
+            text-decoration: line-through;
+            margin-left: 7px;
+        }
+
+        .buy-btn {
+            background: #7f00ff; 
+            color: #fff;
+            padding: 11px;
+            width: 98%; 
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+            transform: skewX(-3deg); 
+        }
+
+        .buy-btn:hover {
+            background: #5900b3;
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 15px;
+            }
+            .price {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="" alt="Фото" />
+        <div class="info">
+            <div class="title">Samsung</div>
+            <div class="price">7 600 грн <span class="old-price">6 700 грн</span></div>
+            <button class="buy-btn">Кошик</button>
+        </div>
+    </div>
+</body>
+</html>
